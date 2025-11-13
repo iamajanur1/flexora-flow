@@ -8,6 +8,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { services } from "@/data/services";
 import { toast } from "sonner";
+import qr300 from "@/assets/qr-300.png";
+import qr350 from "@/assets/qr-350.png";
+import qr400 from "@/assets/qr-400.png";
+import qr450 from "@/assets/qr-450.png";
+import qr500 from "@/assets/qr-500.png";
 
 const Booking = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -25,6 +30,14 @@ const Booking = () => {
     return services.find(s => s.id === formData.service);
   }, [formData.service]);
 
+  const qrCodeMap: Record<number, string> = {
+    300: qr300,
+    350: qr350,
+    400: qr400,
+    450: qr450,
+    500: qr500,
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -39,7 +52,7 @@ const Booking = () => {
     const message = `*New Booking Request*\n\n*Name:* ${formData.fullName}\n*Phone:* ${formData.phone}\n*Email:* ${formData.email || 'Not provided'}\n*Service:* ${service?.name}\n*Price:* ₹${service?.price}\n*Date:* ${formData.date}\n*Time:* ${formData.time}\n*Message:* ${formData.message || 'None'}`;
     
     const whatsappUrl = `https://wa.me/7086484190?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+    window.location.href = whatsappUrl;
     
     toast.success("Redirecting to WhatsApp...");
   };
@@ -287,20 +300,21 @@ const Booking = () => {
                             </span>
                           </div>
                           
-                          {/* QR Code Placeholder */}
+                          {/* QR Code */}
                           <div className="bg-white rounded-xl p-4 flex flex-col items-center">
                             <div className="flex items-center gap-2 mb-3">
                               <QrCode className="w-4 h-4 text-muted-foreground" />
-                              <span className="text-sm text-muted-foreground">Scan to pay</span>
+                              <span className="text-sm text-muted-foreground">Scan to pay ₹{selectedService.price}</span>
                             </div>
-                            <div className="w-40 h-40 bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg flex items-center justify-center border-2 border-dashed border-primary/30">
-                              <div className="text-center">
-                                <QrCode className="w-12 h-12 text-primary/40 mx-auto mb-2" />
-                                <span className="text-xs text-muted-foreground">QR Code</span>
-                              </div>
+                            <div className="w-48 h-48 rounded-lg overflow-hidden border-2 border-primary/20">
+                              <img 
+                                src={qrCodeMap[selectedService.price]} 
+                                alt={`Payment QR code for ₹${selectedService.price}`}
+                                className="w-full h-full object-cover"
+                              />
                             </div>
                             <p className="text-xs text-muted-foreground mt-3 text-center">
-                              Payment details will be shared via WhatsApp
+                              Scan with any UPI app to pay
                             </p>
                           </div>
                         </motion.div>
