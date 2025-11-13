@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Calendar, Clock, User, Phone, Mail, MessageSquare, CheckCircle2, Activity } from "lucide-react";
+import { Calendar, Clock, User, Phone, Mail, MessageSquare, CheckCircle2, Activity, IndianRupee, QrCode } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,6 +21,10 @@ const Booking = () => {
     message: ""
   });
 
+  const selectedService = useMemo(() => {
+    return services.find(s => s.id === formData.service);
+  }, [formData.service]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -30,9 +34,14 @@ const Booking = () => {
       return;
     }
 
-    // Show success state
-    setIsSubmitted(true);
-    toast.success("Booking request received! We'll contact you shortly.");
+    // Format WhatsApp message
+    const service = services.find(s => s.id === formData.service);
+    const message = `*New Booking Request*\n\n*Name:* ${formData.fullName}\n*Phone:* ${formData.phone}\n*Email:* ${formData.email || 'Not provided'}\n*Service:* ${service?.name}\n*Price:* ₹${service?.price}\n*Date:* ${formData.date}\n*Time:* ${formData.time}\n*Message:* ${formData.message || 'None'}`;
+    
+    const whatsappUrl = `https://wa.me/7086484190?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+    
+    toast.success("Redirecting to WhatsApp...");
   };
 
   const handleChange = (field: string, value: string) => {
@@ -258,6 +267,44 @@ const Booking = () => {
                           className="mt-2 min-h-[120px]"
                         />
                       </motion.div>
+
+                      {/* Price Display */}
+                      {selectedService && (
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          className="bg-gradient-soft rounded-2xl p-6 border-2 border-primary/20"
+                        >
+                          <div className="flex items-center justify-between mb-4">
+                            <div className="flex items-center gap-2">
+                              <IndianRupee className="w-5 h-5 text-primary" />
+                              <span className="font-heading text-lg font-semibold text-foreground">
+                                Session Price
+                              </span>
+                            </div>
+                            <span className="text-3xl font-bold text-primary">
+                              ₹{selectedService.price}
+                            </span>
+                          </div>
+                          
+                          {/* QR Code Placeholder */}
+                          <div className="bg-white rounded-xl p-4 flex flex-col items-center">
+                            <div className="flex items-center gap-2 mb-3">
+                              <QrCode className="w-4 h-4 text-muted-foreground" />
+                              <span className="text-sm text-muted-foreground">Scan to pay</span>
+                            </div>
+                            <div className="w-40 h-40 bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg flex items-center justify-center border-2 border-dashed border-primary/30">
+                              <div className="text-center">
+                                <QrCode className="w-12 h-12 text-primary/40 mx-auto mb-2" />
+                                <span className="text-xs text-muted-foreground">QR Code</span>
+                              </div>
+                            </div>
+                            <p className="text-xs text-muted-foreground mt-3 text-center">
+                              Payment details will be shared via WhatsApp
+                            </p>
+                          </div>
+                        </motion.div>
+                      )}
                     </div>
 
                     {/* Submit Button */}
@@ -273,10 +320,11 @@ const Booking = () => {
                         size="lg"
                         className="w-full text-lg"
                       >
-                        Send Booking Request
+                        <MessageSquare className="mr-2" />
+                        Send to WhatsApp
                       </Button>
                       <p className="text-sm text-muted-foreground text-center mt-4">
-                        We'll contact you shortly to confirm your appointment
+                        Your booking details will be sent via WhatsApp
                       </p>
                     </motion.div>
                   </form>

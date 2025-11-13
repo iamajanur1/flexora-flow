@@ -5,6 +5,7 @@ export interface Service {
   fullDescription: string;
   benefits: string[];
   icon: string;
+  price: number;
 }
 
 export const services: Service[] = [
@@ -20,7 +21,8 @@ export const services: Service[] = [
       "Personalized recovery roadmap",
       "Specialized neuro-physiotherapy protocols"
     ],
-    icon: "brain"
+    icon: "brain",
+    price: 500
   },
   {
     id: "spondylosis",
@@ -34,7 +36,8 @@ export const services: Service[] = [
       "Prevents further degeneration",
       "Enhances posture and alignment"
     ],
-    icon: "bone"
+    icon: "bone",
+    price: 400
   },
   {
     id: "nerve-injury",
@@ -48,7 +51,8 @@ export const services: Service[] = [
       "Restores functional movements",
       "Reduces neuropathic pain"
     ],
-    icon: "zap"
+    icon: "zap",
+    price: 450
   },
   {
     id: "hajima-dry-needling",
@@ -62,7 +66,8 @@ export const services: Service[] = [
       "Accelerates tissue healing",
       "Restores normal muscle function"
     ],
-    icon: "target"
+    icon: "target",
+    price: 350
   },
   {
     id: "shoulder-pain",
@@ -76,7 +81,8 @@ export const services: Service[] = [
       "Corrects postural imbalances",
       "Prevents recurrent injuries"
     ],
-    icon: "user"
+    icon: "user",
+    price: 400
   },
   {
     id: "muscle-weakness",
@@ -90,7 +96,8 @@ export const services: Service[] = [
       "Prevents muscle atrophy",
       "Increases endurance and stamina"
     ],
-    icon: "dumbbell"
+    icon: "dumbbell",
+    price: 350
   },
   {
     id: "tennis-elbow",
@@ -104,7 +111,8 @@ export const services: Service[] = [
       "Prevents chronic tendinopathy",
       "Enables return to activities"
     ],
-    icon: "tennis"
+    icon: "tennis",
+    price: 300
   },
   {
     id: "back-pain",
@@ -118,7 +126,8 @@ export const services: Service[] = [
       "Corrects postural dysfunction",
       "Prevents future episodes"
     ],
-    icon: "spine"
+    icon: "spine",
+    price: 400
   },
   {
     id: "golfer-elbow",
@@ -132,7 +141,8 @@ export const services: Service[] = [
       "Enables gradual return to activity",
       "Prevents recurrent tendinopathy"
     ],
-    icon: "golf"
+    icon: "golf",
+    price: 300
   },
   {
     id: "post-fracture",
@@ -146,7 +156,8 @@ export const services: Service[] = [
       "Prevents stiffness and complications",
       "Accelerates functional recovery"
     ],
-    icon: "bone-break"
+    icon: "bone-break",
+    price: 450
   }
 ];
 
