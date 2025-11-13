@@ -38,7 +38,7 @@ const Booking = () => {
     500: qr500,
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Basic validation
@@ -47,14 +47,45 @@ const Booking = () => {
       return;
     }
 
-    // Format WhatsApp message
     const service = services.find(s => s.id === formData.service);
-    const message = `*New Booking Request*\n\n*Name:* ${formData.fullName}\n*Phone:* ${formData.phone}\n*Email:* ${formData.email || 'Not provided'}\n*Service:* ${service?.name}\n*Price:* ₹${service?.price}\n*Date:* ${formData.date}\n*Time:* ${formData.time}\n*Message:* ${formData.message || 'None'}`;
-    
-    const whatsappUrl = `https://wa.me/7086484190?text=${encodeURIComponent(message)}`;
-    window.location.href = whatsappUrl;
-    
-    toast.success("Redirecting to WhatsApp...");
+    if (!service) {
+      toast.error("Invalid service selected");
+      return;
+    }
+
+    try {
+      // Save booking to database
+      const { supabase } = await import("@/integrations/supabase/client");
+      const { error } = await supabase.from("bookings").insert({
+        full_name: formData.fullName,
+        phone: formData.phone,
+        email: formData.email || null,
+        service_id: service.id,
+        service_name: service.name,
+        price: service.price,
+        preferred_date: formData.date,
+        preferred_time: formData.time,
+        message: formData.message || null,
+        status: "pending"
+      });
+
+      if (error) {
+        console.error("Error saving booking:", error);
+        toast.error("Failed to save booking. Please try again.");
+        return;
+      }
+
+      // Format WhatsApp message
+      const message = `*New Booking Request*\n\n*Name:* ${formData.fullName}\n*Phone:* ${formData.phone}\n*Email:* ${formData.email || 'Not provided'}\n*Service:* ${service.name}\n*Price:* ₹${service.price}\n*Date:* ${formData.date}\n*Time:* ${formData.time}\n*Message:* ${formData.message || 'None'}`;
+      
+      const whatsappUrl = `https://wa.me/7086484190?text=${encodeURIComponent(message)}`;
+      window.location.href = whatsappUrl;
+      
+      toast.success("Booking saved! Redirecting to WhatsApp...");
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("An error occurred. Please try again.");
+    }
   };
 
   const handleChange = (field: string, value: string) => {
