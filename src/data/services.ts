@@ -37,7 +37,7 @@ export const services: Service[] = [
       "Enhances posture and alignment"
     ],
     icon: "bone",
-    price: 400
+    price: 500
   },
   {
     id: "nerve-injury",
@@ -52,7 +52,7 @@ export const services: Service[] = [
       "Reduces neuropathic pain"
     ],
     icon: "zap",
-    price: 450
+    price: 500
   },
   {
     id: "hajima-dry-needling",
@@ -67,7 +67,7 @@ export const services: Service[] = [
       "Restores normal muscle function"
     ],
     icon: "target",
-    price: 350
+    price: 500
   },
   {
     id: "shoulder-pain",
@@ -82,7 +82,7 @@ export const services: Service[] = [
       "Prevents recurrent injuries"
     ],
     icon: "user",
-    price: 400
+    price: 500
   },
   {
     id: "muscle-weakness",
@@ -97,7 +97,7 @@ export const services: Service[] = [
       "Increases endurance and stamina"
     ],
     icon: "dumbbell",
-    price: 350
+    price: 500
   },
   {
     id: "tennis-elbow",
@@ -112,7 +112,7 @@ export const services: Service[] = [
       "Enables return to activities"
     ],
     icon: "tennis",
-    price: 300
+    price: 500
   },
   {
     id: "back-pain",
@@ -127,7 +127,7 @@ export const services: Service[] = [
       "Prevents future episodes"
     ],
     icon: "spine",
-    price: 400
+    price: 500
   },
   {
     id: "golfer-elbow",
@@ -142,7 +142,7 @@ export const services: Service[] = [
       "Prevents recurrent tendinopathy"
     ],
     icon: "golf",
-    price: 300
+    price: 500
   },
   {
     id: "post-fracture",
@@ -157,7 +157,7 @@ export const services: Service[] = [
       "Accelerates functional recovery"
     ],
     icon: "bone-break",
-    price: 450
+    price: 500
   }
 ];
 
