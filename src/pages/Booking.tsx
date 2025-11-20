@@ -10,7 +10,7 @@ import { services } from "@/data/services";
 import { toast } from "sonner";
 
 // ⭐⭐ IMPORT YOUR REAL UPI QR ⭐⭐
-import myQR from "@/assets/my-upi-qr.png";
+import myQR from "@/assets/GooglePay_QR.png";
 
 const Booking = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
